@@ -6,14 +6,11 @@ import java.util.Arrays;
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
-    private int size = 0;
+    private int size;
     
     void clear() {
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] != null) {
-                Arrays.fill(storage, i, i + 1, null);
-            }
-        }
+        Arrays.fill(storage, size, size + 1, null);
+
     }
 
     void save(Resume r) {
@@ -47,20 +44,16 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] != null) {
-                return Arrays.copyOfRange(storage, i,  i + 1);
-            }
-        }
-        return null;
+        return Arrays.copyOfRange(storage, size,  size + 1);
     }
 
     int size() {
-        for (int i = 0; i < storage.length; i++) {
-            if (storage.length - 1 == i) {
-                size++;
+        int size = storage.length - 1;
+        for (int i = 0; i < size; i++) {
+            if (size == i + 1) {
+                this.size++;
             }
         }
-        return size;
+        return this.size;
     }
 }
