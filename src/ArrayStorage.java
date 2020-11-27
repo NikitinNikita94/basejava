@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 /**
@@ -6,19 +5,16 @@ import java.util.Arrays;
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
-    private int size;
+    int size = storage.length - 1;
     
     void clear() {
-        Arrays.fill(storage, size, size + 1, null);
+        Arrays.fill(storage, size, storage.length, null);
 
     }
 
     void save(Resume r) {
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] == null) {
-                storage[i] = r;
-                break;
-            }
+        if (size < storage.length - 1) {
+            storage[size] = r;
         }
     }
 
@@ -34,7 +30,7 @@ public class ArrayStorage {
     void delete(String uuid) {
         for (int i = 0; i < storage.length; i++) {
             if (uuid.equals(storage[i])) {
-                storage[i] = storage[i - 1];
+                Arrays.fill(storage, i, storage.length, null);
                 break;
             }
         }
@@ -44,16 +40,11 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        return Arrays.copyOfRange(storage, size,  size + 1);
+        return Arrays.copyOfRange(storage, size,  storage.length);
     }
 
     int size() {
-        int size = storage.length - 1;
-        for (int i = 0; i < size; i++) {
-            if (size == i + 1) {
-                this.size++;
-            }
-        }
-        return this.size;
+        size--;
+        return size;
     }
 }
