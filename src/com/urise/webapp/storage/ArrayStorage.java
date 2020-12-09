@@ -8,41 +8,43 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private Resume[] storage = new Resume[10000];
+    private Resume[] storage = new Resume[10_000];
     private int size = 0;
 
     public void clear() {
-        Arrays.fill(storage, 0 , size, null);
+        Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
-    public void save(Resume r) {
+    public void save(Resume resume) {
         if (size < storage.length - 1) {
-            if (r != storage[size]) {
-                storage[size] = r;
+            if (resume.equals(storage[size]) == false) {
+                storage[size] = resume;
                 size++;
+            } else {
+                System.out.println("ERROR: The such a " + resume + "already exists.");
             }
         } else {
             System.out.println("ERROR: The storage is full. ");
         }
     }
 
-    public void update(Resume r) {
+    public void update(Resume resume) {
         for (int i = 0; i < size; i++) {
-            if (r.equals(storage[i])) {
-                storage[i] = r;
+            if (check(resume.getUuid())) {
+                storage[i] = resume;
             } else {
-                System.out.println("ERROR: No such resume exists.");
+                System.out.println("ERROR: No such " + resume + " exists.");
             }
         }
     }
 
     public Resume get(String uuid) {
         for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid() == uuid) {
+            if (check(uuid)) {
                 return storage[i];
-            } else if (storage[i].getUuid() != uuid){
-                System.out.println("ERROR: There is no such uuid in storage1");
+            } else if (check(uuid) == false) {
+                System.out.println("ERROR: There is no such " + uuid + " in storage1.");
             }
         }
         return null;
@@ -50,12 +52,10 @@ public class ArrayStorage {
 
     public void delete(String uuid) {
         for (int i = 0; i < size; i++) {
-            if (uuid.equals(storage[i].getUuid())) {
+            if (check(uuid)) {
                 storage[i] = storage[size - 1];
                 storage[size - 1] = null;
                 size--;
-            } else {
-                System.out.println("ERROR: There is no such uuid in storage2");
             }
         }
     }
@@ -69,5 +69,14 @@ public class ArrayStorage {
 
     public int size() {
         return size;
+    }
+
+    public boolean check(String uuid) {
+        for (int i = 0; i < size; i++) {
+            if (uuid.equals(storage[i].getUuid())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
