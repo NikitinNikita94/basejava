@@ -10,6 +10,7 @@ import java.util.Arrays;
 public class ArrayStorage {
     private Resume[] storage = new Resume[10_000];
     private int size = 0;
+    int numIndex;
 
     public void clear() {
         Arrays.fill(storage, 0, size, null);
@@ -18,7 +19,7 @@ public class ArrayStorage {
 
     public void save(Resume resume) {
         if (size < storage.length - 1) {
-            if (resume.equals(storage[size]) == false) {
+            if (!resume.equals(storage[size])) {
                 storage[size] = resume;
                 size++;
             } else {
@@ -30,33 +31,30 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-        for (int i = 0; i < size; i++) {
-            if (check(resume.getUuid())) {
-                storage[i] = resume;
-            } else {
-                System.out.println("ERROR: No such " + resume + " exists.");
-            }
+        numIndex = check(resume.getUuid());
+        if (numIndex >= 0) {
+            storage[numIndex] = resume;
+        } else {
+            System.out.println("ERROR: No such " + resume + " exists.");
         }
     }
 
     public Resume get(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (check(uuid)) {
-                return storage[i];
-            } else if (check(uuid) == false) {
-                System.out.println("ERROR: There is no such " + uuid + " in storage1.");
-            }
+        numIndex = check(uuid);
+        if (numIndex >= 0) {
+            return storage[numIndex];
+        } else {
+            System.out.println("ERROR: There is no such " + uuid + " in storage.");
         }
         return null;
     }
 
     public void delete(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (check(uuid)) {
-                storage[i] = storage[size - 1];
-                storage[size - 1] = null;
-                size--;
-            }
+        numIndex = check(uuid);
+        if (numIndex >= 0) {
+            storage[numIndex] = storage[size - 1];
+            storage[size - 1] = null;
+            size--;
         }
     }
 
@@ -71,12 +69,12 @@ public class ArrayStorage {
         return size;
     }
 
-    public boolean check(String uuid) {
+    public int check(String uuid) {
         for (int i = 0; i < size; i++) {
             if (uuid.equals(storage[i].getUuid())) {
-                return true;
+                return i;
             }
         }
-        return false;
+        return -1;
     }
 }
