@@ -9,28 +9,17 @@ import java.util.Arrays;
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
-    public void save(Resume resume) {
-        if (size < STORAGE_LIMIT) {
-            if (findIndex(resume.getUuid()) < 0) {
-                storage[size] = resume;
-                size++;
-            } else {
-                System.out.println("ERROR: The such a " + resume + "already exists.");
-            }
-        } else {
-            System.out.println("ERROR: The storage is full. ");
-        }
+    @Override
+    protected void saveResume(Resume resume, int index) {
+        storage[size] = resume;
+        size++;
     }
 
-    public void delete(String uuid) {
-        int index = findIndex(uuid);
-        if (index >= 0) {
-            storage[index] = storage[size - 1];
-            storage[size - 1] = null;
-            size--;
-        } else {
-            System.out.println("ERROR : There is nothing to delete in storage.");
-        }
+    @Override
+    protected void deleteResume(String uuid, int index) {
+        storage[index] = storage[size - 1];
+        storage[size - 1] = null;
+        size--;
     }
 
     protected int findIndex(String uuid) {
