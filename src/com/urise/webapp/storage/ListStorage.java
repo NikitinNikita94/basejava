@@ -6,11 +6,11 @@ import java.util.List;
 
 public class ListStorage extends AbstractStorage {
 
-    private List list = new ArrayList<>();
+    private List<Resume> list = new ArrayList();
 
     @Override
     protected Resume getResume(int index) {
-        return (Resume) list.get(index);
+        return  list.get(index);
     }
 
     @Override
@@ -19,18 +19,18 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected int findIndex(String uuid) {
+    protected void saveResume(Resume resume) {
+        list.add(resume);
+    }
+
+    @Override
+    protected int resumeIndex(String uuid) {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).equals(uuid)) {
                 return i;
             }
         }
         return -1;
-    }
-
-    @Override
-    protected void saveResume(Resume resume, int index) {
-        list.add(index, resume);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        return (Resume[]) list.toArray(new Resume[list.size()]);
+        return  list.toArray(new Resume[list.size()]);
     }
 
     @Override

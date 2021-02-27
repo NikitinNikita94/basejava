@@ -1,5 +1,6 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -10,17 +11,7 @@ import java.util.Arrays;
 public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected void saveResume(Resume resume, int index) {
-        storage[index] = resume;
-    }
-
-    @Override
-    protected void deleteResume(int index) {
-        storage[index] = storage[size - 1];
-    }
-
-    @Override
-    protected int findIndex(String uuid) {
+    protected int resumeIndex(String uuid) {
         for (int i = 0; i < size; i++) {
             if (uuid.equals(storage[i].getUuid())) {
                 return i;
