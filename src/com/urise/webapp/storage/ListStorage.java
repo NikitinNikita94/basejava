@@ -10,12 +10,13 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected Resume getResume(int index) {
-        return  list.get(index);
+        return list.get(index);
     }
 
     @Override
-    protected void updateResume(int index, Resume resume) {
-        list.set(index, resume);
+    protected void updateResume(Resume resume) {
+        int index = (int) resumeIndex(resume.getUuid());
+        list.set(index,resume);
     }
 
     @Override
@@ -26,7 +27,7 @@ public class ListStorage extends AbstractStorage {
     @Override
     protected int resumeIndex(String uuid) {
         for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).equals(uuid)) {
+            if (uuid.equals(list.get(i).getUuid())) {
                 return i;
             }
         }

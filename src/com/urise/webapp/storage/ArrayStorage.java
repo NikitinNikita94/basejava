@@ -19,4 +19,14 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
         return -1;
     }
+
+    @Override
+    protected void inite(Resume resume) {
+        storage[size] = resume;
+    }
+
+    @Override
+    protected void fillDelete(int index) {
+        storage[index] = storage[size - 1];
+    }
 }
