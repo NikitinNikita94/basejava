@@ -9,13 +9,18 @@ public class ListStorage extends AbstractStorage {
     private List<Resume> list = new ArrayList();
 
     @Override
-    protected Resume getResume(int index) {
-        return list.get(index);
+    protected boolean checkNullPointer(Object index) {
+        return (Integer)index < 0;
     }
 
     @Override
-    protected void updateResume(Resume resume,int index) {
-        list.set(index,resume);
+    protected Resume getResume(Object index) {
+        return list.get((Integer) index);
+    }
+
+    @Override
+    protected void updateResume(Resume resume,Object index) {
+        list.set((Integer) index,resume);
     }
 
     @Override
@@ -24,9 +29,9 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected int getResumeIndex(String uuid) {
+    protected Object getResumeIndex(String uuid) {
         for (int i = 0; i < list.size(); i++) {
-            if (uuid.equals(list.get(i).getUuid())) {
+            if (list.get(i).getUuid().equals(uuid)) {
                 return i;
             }
         }
@@ -34,8 +39,9 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void deleteResume(int index) {
-        list.remove(index);
+    protected void deleteResume(String uuid) {
+        Integer index = (Integer) getResumeIndex(uuid);
+        list.remove((index).intValue());
     }
 
     @Override

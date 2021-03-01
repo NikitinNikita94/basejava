@@ -20,7 +20,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     @Override
     protected void saveResume(Resume resume) {
-        int index = getResumeIndex(resume.getUuid());
+        Integer index = (Integer) getResumeIndex(resume.getUuid());
         if (size < STORAGE_LIMIT) {
             insertResume(resume,index);
             size++;
@@ -30,20 +30,21 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void deleteResume(int index) {
+    protected void deleteResume(String uuid) {
+        Integer index = (Integer) getResumeIndex(uuid);
         fillDelete(index);
         storage[size - 1] = null;
         size--;
     }
 
     @Override
-    protected Resume getResume(int index) {
-        return storage[index];
+    protected Resume getResume(Object index) {
+        return storage[(Integer) index];
     }
 
     @Override
-    protected void updateResume(Resume resume,int index) {
-        storage[index] = resume;
+    protected void updateResume(Resume resume,Object index) {
+        storage[(Integer) index] = resume;
     }
 
     /**
@@ -55,6 +56,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     public int size() {
         return size;
+    }
+
+    @Override
+    protected boolean checkNullPointer(Object index) {
+        return (Integer) index < 0;
     }
 
     protected abstract void fillDelete(int index);

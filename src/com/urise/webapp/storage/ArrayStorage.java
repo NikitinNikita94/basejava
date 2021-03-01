@@ -11,7 +11,7 @@ import java.util.Arrays;
 public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected int getResumeIndex(String uuid) {
+    protected Integer getResumeIndex(String uuid) {
         for (int i = 0; i < size; i++) {
             if (uuid.equals(storage[i].getUuid())) {
                 return i;
