@@ -6,32 +6,32 @@ import java.util.List;
 
 public class ListStorage extends AbstractStorage {
 
-    private List<Resume> list = new ArrayList();
+    private List<Resume> listStorage = new ArrayList();
 
     @Override
-    protected boolean checkNullPointer(Object index) {
+    protected boolean isExist(Object index) {
         return (Integer)index < 0;
     }
 
     @Override
     protected Resume getResume(Object index) {
-        return list.get((Integer) index);
+        return listStorage.get((Integer) index);
     }
 
     @Override
     protected void updateResume(Resume resume,Object index) {
-        list.set((Integer) index,resume);
+        listStorage.set((Integer) index,resume);
     }
 
     @Override
-    protected void saveResume(Resume resume) {
-        list.add(resume);
+    protected void saveResume(Resume resume,Object searchKey) {
+        listStorage.add(resume);
     }
 
     @Override
     protected Object getResumeIndex(String uuid) {
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getUuid().equals(uuid)) {
+        for (int i = 0; i < listStorage.size(); i++) {
+            if (listStorage.get(i).getUuid().equals(uuid)) {
                 return i;
             }
         }
@@ -39,23 +39,22 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void deleteResume(String uuid) {
-        Integer index = (Integer) getResumeIndex(uuid);
-        list.remove((index).intValue());
+    protected void deleteResume(Object searckKey) {
+        listStorage.remove((searckKey));
     }
 
     @Override
     public void clear() {
-        list.clear();
+        listStorage.clear();
     }
 
     @Override
     public Resume[] getAll() {
-        return  list.toArray(new Resume[list.size()]);
+        return  listStorage.toArray(new Resume[listStorage.size()]);
     }
 
     @Override
     public int size() {
-        return list.size();
+        return listStorage.size();
     }
 }

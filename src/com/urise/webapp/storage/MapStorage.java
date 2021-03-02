@@ -6,10 +6,10 @@ import java.util.LinkedHashMap;
 
 public class MapStorage extends AbstractStorage {
 
-    LinkedHashMap<String,Resume> map = new LinkedHashMap<>();
+    private LinkedHashMap<String,Resume> mapStorage = new LinkedHashMap<>();
 
     @Override
-    protected boolean checkNullPointer(Object index) {
+    protected boolean isExist(Object index) {
         return index == null;
     }
 
@@ -20,36 +20,36 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected void updateResume(Resume resume, Object index) {
-        map.replace(resume.getUuid(),resume);
+        mapStorage.replace(resume.getUuid(),resume);
     }
 
     @Override
-    protected void saveResume(Resume resume) {
-        map.put(resume.getUuid(),resume);
+    protected void saveResume(Resume resume,Object searchKey) {
+        mapStorage.put(resume.getUuid(),resume);
     }
 
     @Override
-    protected void deleteResume(String uuid) {
-        map.remove(uuid);
+    protected void deleteResume(Object searchKey) {
+        mapStorage.remove(searchKey);
     }
 
     @Override
     protected Object getResumeIndex(String uuid) {
-        return map.get(uuid);
+        return mapStorage.get(uuid);
     }
 
     @Override
     public void clear() {
-        map.clear();
+        mapStorage.clear();
     }
 
     @Override
     public Resume[] getAll() {
-        return map.values().toArray(new Resume[map.size()]);
+        return mapStorage.values().toArray(new Resume[mapStorage.size()]);
     }
 
     @Override
     public int size() {
-        return map.size();
+        return mapStorage.size();
     }
 }
