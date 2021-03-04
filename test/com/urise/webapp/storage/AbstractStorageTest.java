@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class AbstractCollectionStorageTest {
+public class AbstractStorageTest {
 
     protected Storage storage;
 
@@ -29,7 +29,7 @@ public class AbstractCollectionStorageTest {
         RESUME_4 = new Resume(UUID_4);
     }
 
-    protected AbstractCollectionStorageTest(Storage storage) {
+    protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
     }
 

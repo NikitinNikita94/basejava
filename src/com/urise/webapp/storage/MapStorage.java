@@ -1,25 +1,24 @@
 package com.urise.webapp.storage;
-
 import com.urise.webapp.model.Resume;
-
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class MapStorage extends AbstractStorage {
 
-    private LinkedHashMap<String,Resume> mapStorage = new LinkedHashMap<>();
+    private Map<String,Resume> mapStorage = new LinkedHashMap<>();
 
     @Override
-    protected boolean isExist(Object index) {
-        return index == null;
+    protected boolean isExist(Object searchKey) {
+        return searchKey == null;
     }
 
     @Override
-    protected Resume getResume(Object index) {
-        return (Resume) index;
+    protected Resume getResume(Object searchKey) {
+        return (Resume) searchKey;
     }
 
     @Override
-    protected void updateResume(Resume resume, Object index) {
+    protected void updateResume(Resume resume, Object searchKey) {
         mapStorage.replace(resume.getUuid(),resume);
     }
 
@@ -34,7 +33,7 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected Object getResumeIndex(String uuid) {
+    protected Object getResumeSerchKey(String uuid) {
         return mapStorage.get(uuid);
     }
 

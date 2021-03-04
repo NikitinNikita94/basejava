@@ -7,39 +7,31 @@ import com.urise.webapp.model.Resume;
 public abstract class AbstractStorage implements Storage {
 
     public void save(Resume resume) {
-        saveResume(resume,getExist(resume.getUuid()));
+        saveResume(resume, getExistSerchKey(resume.getUuid()));
     }
 
     public void delete(String uuid) {
-       deleteResume(getNotSerchKeyExist(uuid));
+       deleteResume(getNotExistSerchKey(uuid));
     }
 
     public void update(Resume resume) {
-        updateResume(resume,getNotExist(resume.getUuid()));
+        updateResume(resume, getNotExistSerchKey(resume.getUuid()));
     }
 
     public Resume get(String uuid) {
-        return getResume(getNotExist(uuid));
+        return getResume(getNotExistSerchKey(uuid));
     }
 
-    private Object getExist(String uuid) {
-        Object searchKey = getResumeIndex(uuid);
+    private Object getExistSerchKey(String uuid) {
+        Object searchKey = getResumeSerchKey(uuid);
         if (!isExist(searchKey)) {
             throw new ExistStorageException(uuid);
         }
         return searchKey;
     }
 
-    private Object getNotSerchKeyExist(String uuid) {
-        Object searchKey = getResumeIndex(uuid);
-        if (!isExist(searchKey)) {
-            throw new NotExistStorageException(uuid);
-        }
-        return searchKey;
-    }
-
-    private Object getNotExist(String uuid) {
-        Object searchKey = getResumeIndex(uuid);
+    private Object getNotExistSerchKey(String uuid) {
+        Object searchKey = getResumeSerchKey(uuid);
         if (isExist(searchKey)) {
             throw new NotExistStorageException(uuid);
         }
@@ -56,6 +48,6 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract void deleteResume(Object searchKey);
 
-    protected abstract Object getResumeIndex(String uuid);
+    protected abstract Object getResumeSerchKey(String uuid);
 }
 
