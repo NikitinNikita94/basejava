@@ -7,33 +7,41 @@ import com.urise.webapp.model.Resume;
 public abstract class AbstractStorage implements Storage {
 
     public void save(Resume resume) {
-        saveResume(resume, getExistSerchKey(resume.getUuid()));
+        saveResume(resume, getExistSearchKey(resume.getUuid()));
     }
 
     public void delete(String uuid) {
-       deleteResume(getNotExistSerchKey(uuid));
+       deleteResume(getNoExistSearchKey(uuid));
     }
 
     public void update(Resume resume) {
-        updateResume(resume, getNotExistSerchKey(resume.getUuid()));
+        updateResume(resume, getNotExistSearchKey(resume.getUuid()));
     }
 
     public Resume get(String uuid) {
-        return getResume(getNotExistSerchKey(uuid));
+        return getResume(getNotExistSearchKey(uuid));
     }
 
-    private Object getExistSerchKey(String uuid) {
-        Object searchKey = getResumeSerchKey(uuid);
-        if (!isExist(searchKey)) {
-            throw new ExistStorageException(uuid);
+    private Object getNoExistSearchKey(String uuid) {
+        Object searchKey = getResumeSearchKey(uuid);
+        if (isExist(searchKey)) {
+            throw new NotExistStorageException(uuid);
         }
         return searchKey;
     }
 
-    private Object getNotExistSerchKey(String uuid) {
-        Object searchKey = getResumeSerchKey(uuid);
-        if (isExist(searchKey)) {
+    private Object getNotExistSearchKey(String uuid) {
+        Object searchKey = getResumeSearchKey(uuid);
+        if (!isExist(searchKey)) {
             throw new NotExistStorageException(uuid);
+        }
+        return searchKey;
+    }
+
+    private Object getExistSearchKey(String uuid) {
+        Object searchKey = getResumeSearchKey(uuid);
+        if (isExist(searchKey)) {
+            throw new ExistStorageException(uuid);
         }
         return searchKey;
     }
@@ -48,6 +56,6 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract void deleteResume(Object searchKey);
 
-    protected abstract Object getResumeSerchKey(String uuid);
+    protected abstract Object getResumeSearchKey(String uuid);
 }
 

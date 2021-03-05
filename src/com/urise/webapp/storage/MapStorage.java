@@ -9,7 +9,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected boolean isExist(Object searchKey) {
-        return searchKey == null;
+        return searchKey != null;
     }
 
     @Override
@@ -33,7 +33,7 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected Object getResumeSerchKey(String uuid) {
+    protected Object getResumeSearchKey(String uuid) {
         return mapStorage.get(uuid);
     }
 

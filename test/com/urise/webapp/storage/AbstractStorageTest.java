@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class AbstractStorageTest {
+public abstract class AbstractStorageTest {
 
     protected Storage storage;
 
@@ -62,15 +62,15 @@ public class AbstractStorageTest {
     @Test(expected = NotExistStorageException.class)
     public void delete() throws Exception {
         storage.delete(UUID_2);
-        assertEquals(2, storage.size());
-        storage.get(UUID_4);
+        assertEquals(2,storage.size());
+        storage.get(UUID_2);
     }
 
     @Test
     public void update() throws Exception {
         Resume resume = new Resume(UUID_1);
         storage.update(resume);
-        assertEquals(resume, storage.get(RESUME_1.getUuid()));
+        assertEquals(resume, storage.get(UUID_1));
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -81,13 +81,13 @@ public class AbstractStorageTest {
 
     @Test
     public void get() throws Exception {
-        Resume resume = new Resume(RESUME_2.getUuid());
-        assertEquals(resume, storage.get(RESUME_2.getUuid()));
+        Resume resume = new Resume(UUID_2);
+        assertEquals(resume, RESUME_2);
     }
 
     @Test(expected = NotExistStorageException.class)
     public void getNoExist() throws Exception {
-        storage.get(RESUME_4.getUuid());
+        storage.get(UUID_4);
     }
 
     @Test
