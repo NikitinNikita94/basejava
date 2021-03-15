@@ -1,11 +1,12 @@
 package com.urise.webapp.storage;
+
 import com.urise.webapp.model.Resume;
 
 import java.util.*;
 
-public class MapStorage extends AbstractStorage {
+public class MapResume extends AbstractStorage {
 
-    private Map<String,Resume> mapStorage = new LinkedHashMap<>();
+    Map<String,Resume> mapResume = new LinkedHashMap();
 
     @Override
     protected boolean isExist(Object searchKey) {
@@ -19,36 +20,36 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected void updateResume(Resume resume, Object searchKey) {
-        mapStorage.replace(resume.getUuid(),resume);
+        mapResume.replace(resume.getUuid(),resume);
     }
 
     @Override
-    protected void saveResume(Resume resume,Object searchKey) {
-        mapStorage.put(resume.getUuid(),resume);
+    protected void saveResume(Resume resume, Object searchKey) {
+        mapResume.put(resume.getUuid(),resume);
     }
 
     @Override
     protected void deleteResume(Object searchKey) {
-        mapStorage.remove(get(searchKey.toString()));
+        mapResume.remove(get(searchKey.toString()));
     }
 
     @Override
-    protected Object getSearchKey(String uuid) {
-        return mapStorage.get(uuid);
+    protected Resume getSearchKey(String uuid) {
+        return mapResume.get(uuid);
     }
 
     @Override
     protected List<Resume> getAll() {
-        return new ArrayList<Resume>((Collection<? extends Resume>) mapStorage.values());
+        return new ArrayList<Resume>((Collection<? extends Resume>) mapResume.values());
     }
 
     @Override
     public void clear() {
-        mapStorage.clear();
+        mapResume.clear();
     }
 
     @Override
     public int size() {
-        return mapStorage.size();
+        return mapResume.size();
     }
 }

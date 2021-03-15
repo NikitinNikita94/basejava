@@ -7,7 +7,7 @@ import org.junit.Test;
 import static com.urise.webapp.storage.AbstractArrayStorage.STORAGE_LIMIT;
 import static org.junit.Assert.fail;
 
-public class AbstractArrayStorageTest extends AbstractStorageTest {
+public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
 
     public AbstractArrayStorageTest(Storage storage) {
         super(storage);
@@ -17,11 +17,11 @@ public class AbstractArrayStorageTest extends AbstractStorageTest {
     public void saveOverflow() throws Exception {
         try {
             for (int i = 3; i < STORAGE_LIMIT; i++) {
-                storage.save(new Resume());
+                storage.save(new Resume("fullName1"));
             }
         } catch (StorageException e) {
-            fail("/n" + "Storage was full ahead of time");
+            fail("\n" + "Storage was full ahead of time");
         }
-        storage.save(new Resume());
+        storage.save(new Resume("fullName2"));
     }
 }
