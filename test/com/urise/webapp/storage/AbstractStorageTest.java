@@ -6,6 +6,8 @@ import com.urise.webapp.model.Resume;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractStorageTest {
@@ -23,7 +25,7 @@ public abstract class AbstractStorageTest {
     private static final Resume RESUME_4;
 
     static  {
-        RESUME_1 = new Resume(UUID_1,"fullName2");
+        RESUME_1 = new Resume(UUID_1,"fullName1");
         RESUME_2 = new Resume(UUID_2,"fullName2");
         RESUME_3 = new Resume(UUID_3,"fullName3");
         RESUME_4 = new Resume(UUID_4,"fullName4");
@@ -61,9 +63,9 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void delete() throws Exception {
-        storage.delete(RESUME_2.getUuid());
+        storage.delete(UUID_2);
         assertEquals(2,storage.size());
-        storage.get(RESUME_2.getUuid());
+        storage.get(UUID_2);
     }
 
     @Test
@@ -92,10 +94,8 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAll() throws Exception {
-        Resume[] resumes = storage.getAllSorted().toArray(new Resume[0]);
-        assertEquals(RESUME_1, resumes[0]);
-        assertEquals(RESUME_2, resumes[1]);
-        assertEquals(RESUME_3, resumes[2]);
+        List<Resume> resumes = storage.getAllSorted();
+        assertEquals(3,resumes.size());
     }
 
     @Test
