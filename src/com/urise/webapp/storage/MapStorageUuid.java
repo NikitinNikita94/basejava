@@ -1,54 +1,57 @@
 package com.urise.webapp.storage;
+
 import com.urise.webapp.model.Resume;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class MapStorageUuid extends AbstractStorage {
-
-    private Map<String,Resume> mapStorage = new LinkedHashMap<>();
+public class MapStorageUuid extends AbstractStorage<String> {
+    private Map<String, Resume> map = new HashMap<>();
 
     @Override
-    protected boolean isExist(Object searchKey) {
-        return searchKey != null;
+    protected String getSearchKey(String uuid) {
+        return uuid;
     }
 
     @Override
-    protected Resume getResume(Object searchKey) {
-        return (Resume) searchKey;
+    protected void updateResume(Resume r, String uuid) {
+        map.put(uuid, r);
     }
 
     @Override
-    protected void updateResume(Resume resume, Object searchKey) {
-        mapStorage.replace(resume.getUuid(),resume);
+    protected boolean isExist(String uuid) {
+        return map.containsKey(uuid);
     }
 
     @Override
-    protected void saveResume(Resume resume,Object searchKey) {
-        mapStorage.put(resume.getUuid(),resume);
+    protected void saveResume(Resume r, String uuid) {
+        map.put(uuid, r);
     }
 
     @Override
-    protected void deleteResume(Object searchKey) {
-        mapStorage.remove(((Resume) searchKey).getUuid());
+    protected Resume getResume(String uuid) {
+        return map.get(uuid);
     }
 
     @Override
-    protected Object getSearchKey(String uuid) {
-        return mapStorage.get(uuid);
-    }
-
-    @Override
-    protected List<Resume> getAll() {
-        return new ArrayList<>( mapStorage.values());
+    protected void deleteResume(String uuid) {
+        map.remove(uuid);
     }
 
     @Override
     public void clear() {
-        mapStorage.clear();
+        map.clear();
+    }
+
+    @Override
+    public List<Resume> getAll() {
+        return new ArrayList<>(map.values());
     }
 
     @Override
     public int size() {
-        return mapStorage.size();
+        return map.size();
     }
 }
