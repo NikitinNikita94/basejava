@@ -1,22 +1,21 @@
 package com.urise.webapp.model;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
-public class Organization extends Section {
-    LocalDate date;
-    Experience experience;
+public class Organization extends AbstractSection {
+    private String title;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private String heading;
+    private String paragraph;
 
-    public Organization(LocalDate date, Experience experience) {
-        this.date = date;
-        this.experience = experience;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public Experience getExperience() {
-        return experience;
+    public Organization(String title, LocalDate startDate, LocalDate endDate, String heading, String paragraph) {
+        this.title = title;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.heading = heading;
+        this.paragraph = paragraph;
     }
 
     @Override
@@ -24,20 +23,26 @@ public class Organization extends Section {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Organization that = (Organization) o;
-        return date.equals(that.date) &&
-                experience.equals(that.experience);
+        return title.equals(that.title) &&
+                startDate.equals(that.startDate) &&
+                endDate.equals(that.endDate) &&
+                heading.equals(that.heading) &&
+                Objects.equals(paragraph, that.paragraph);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(date, experience);
+        return Objects.hash(title, startDate, endDate, heading, paragraph);
     }
 
     @Override
     public String toString() {
         return "Organization{" +
-                "date=" + date +
-                ", experience=" + experience +
+                "title='" + title + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", heading='" + heading + '\'' +
+                ", paragraph='" + paragraph + '\'' +
                 '}';
     }
 }

@@ -3,11 +3,11 @@ package com.urise.webapp.model;
 public enum ContactType {
     PHONE("Телефон"),
     SKYPE("Скайп"),
-    EMAIL("Электронная почта"),
+    MAIL("Электронная почта"),
     LINKEDIN("Страница Линкедин"),
     GITHUB("Страница Гитхаб"),
     STACKOVERFLOW("Страница Стековерфлоу"),
-    HOMEPAGE("Домашняя страница");
+    HOME_PAGE("Домашняя страница");
 
     private String title;
 

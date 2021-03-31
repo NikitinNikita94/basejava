@@ -2,7 +2,7 @@ package com.urise.webapp.model;
 
 import java.util.Objects;
 
-public class SingleLineSection extends Section {
+public class SingleLineSection extends AbstractSection {
     private String lineSection;
 
     public SingleLineSection(String lineSection) {

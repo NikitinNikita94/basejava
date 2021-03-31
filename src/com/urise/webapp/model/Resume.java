@@ -17,7 +17,7 @@ public class Resume implements Comparable<Resume> {
 
     private final Map<ContactType,String> contacts = new EnumMap<>(ContactType.class);
 
-    private final Map<SectionType,Section> section = new EnumMap<>(SectionType.class);
+    private final Map<SectionType,AbstractSection> section = new EnumMap<>(SectionType.class);
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(),fullName);
@@ -34,6 +34,26 @@ public class Resume implements Comparable<Resume> {
         return uuid;
     }
 
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void addContact(ContactType contact, String id) {
+        contacts.put(contact, id);
+    }
+
+    public void addSection(SectionType name, AbstractSection section) {
+        this.section.put(name, section);
+    }
+
+    public Map<ContactType, String> getContacts() {
+        return contacts;
+    }
+
+    public Map<SectionType, AbstractSection> getSection() {
+        return section;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -41,7 +61,7 @@ public class Resume implements Comparable<Resume> {
         Resume resume = (Resume) o;
         return uuid.equals(resume.uuid) &&
                 fullName.equals(resume.fullName) &&
-                contacts.equals(resume.contacts) &&
+                Objects.equals(contacts, resume.contacts) &&
                 section.equals(resume.section);
     }
 
@@ -60,12 +80,21 @@ public class Resume implements Comparable<Resume> {
                 '}';
     }
 
+    public void print() {
+        System.out.println(fullName);
+        System.out.println("Контакты");
+        contacts.forEach((k, v) -> System.out.println(k.getTitle() + " " + v));
+
+        section.forEach((k, v) -> System.out.println(k.getTitle() + " " + v));
+    }
+
     @Override
-    public int compareTo(Resume o) {
+    public int compareTo (Resume o){
         int result = fullName.compareTo(o.fullName);
         if (result == 0) {
-           return uuid.compareTo(o.uuid);
+            return uuid.compareTo(o.uuid);
         }
         return result;
     }
+
 }
