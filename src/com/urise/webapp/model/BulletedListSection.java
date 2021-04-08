@@ -4,9 +4,10 @@ import java.util.List;
 import java.util.Objects;
 
 public class BulletedListSection extends AbstractSection {
-    private List<String> listSection;
+    private final List<String> listSection;
 
     public BulletedListSection(List<String> list) {
+        Objects.requireNonNull(list, "list must not be null");
         this.listSection = list;
     }
 

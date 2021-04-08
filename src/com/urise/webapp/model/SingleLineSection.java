@@ -3,9 +3,10 @@ package com.urise.webapp.model;
 import java.util.Objects;
 
 public class SingleLineSection extends AbstractSection {
-    private String lineSection;
+    private final String lineSection;
 
     public SingleLineSection(String lineSection) {
+        Objects.requireNonNull(lineSection, "lineSection must not be null");
         this.lineSection = lineSection;
     }
 

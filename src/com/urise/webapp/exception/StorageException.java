@@ -3,8 +3,13 @@ package com.urise.webapp.exception;
 public class StorageException extends RuntimeException {
     private final String uuid;
 
-    public StorageException(String storage_overflow, String uuid) {
-        super(storage_overflow);
+    public StorageException(String massage, String uuid) {
+        super(massage);
+        this.uuid = uuid;
+    }
+
+    public StorageException(String massage, String uuid, Exception e) {
+        super(massage,e);
         this.uuid = uuid;
     }
 

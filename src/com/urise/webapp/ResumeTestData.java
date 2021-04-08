@@ -55,29 +55,23 @@ public class ResumeTestData {
         ));
 
         OrganizationSection workExperience = new OrganizationSection(Arrays.asList(
-                new Organization("Java Online Projects", LocalDate.of(2013,10,01), LocalDate.now(), "Автор проекта.",
+                new Organization("Java Online Projects", "Java Online Projects", LocalDate.of(2013,10,01), LocalDate.now(), "Автор проекта.",
                                 "Создание, организация и проведение Java онлайн проектов и стажировок."),
-                new Organization("Wrike", LocalDate.of(2014,10,01),LocalDate.of(2016,01,01),"Старший разработчик (backend)",
+                new Organization("Wrike", "Wrike", LocalDate.of(2014,10,01),LocalDate.of(2016,01,01),"Старший разработчик (backend)",
                         "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava," +
                                 " Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO."),
-                new Organization("RIT Center",LocalDate.of(2012,04,01),LocalDate.of(2104,10,01),"Java архитектор",
+                new Organization("RIT Center", "RIT Center",LocalDate.of(2012,04,01),LocalDate.of(2104,10,01),"Java архитектор",
                         "Организация процесса разработки системы ERP для разных окружений: релизная политика, версионирование, ведение CI (Jenkins), миграция базы (кастомизация Flyway), конфигурирование системы (pgBoucer, Nginx)," +
                                 " AAA via SSO. Архитектура БД и серверной части системы. Разработка интергационных сервисов: CMIS, BPMN2, 1C (WebServices), сервисов общего назначения (почта, экспорт в pdf, doc, html). Интеграция Alfresco JLAN" +
                                 " для online редактирование из браузера документов MS Office. Maven + plugin development, Ant, Apache Commons, Spring security, Spring MVC, Tomcat,WSO2, xcmis, OpenCmis, Bonita, Python scripting, Unix shell remote scripting via ssh tunnels, PL/Python"),
-                new Organization("Luxoft (Deutsche Bank)",LocalDate.of(2010,12,01),LocalDate.of(2014,10,06),"Ведущий программист",
+                new Organization("Luxoft (Deutsche Bank)", "Luxoft (Deutsche Bank)",LocalDate.of(2010,12,01),LocalDate.of(2014,10,06),"Ведущий программист",
                         "Участие в проекте Deutsche Bank CRM (WebLogic, Hibernate, Spring, Spring MVC, SmartGWT, GWT, Jasper, Oracle). Реализация клиентской и серверной части CRM. Реализация RIA-приложения для администрирования, мониторинга и анализа" +
                                 " результатов в области алгоритмического трейдинга. JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT), Highstock, Commet, HTML5.")
         ));
 
         OrganizationSection educationSection = new OrganizationSection(Arrays.asList(
-                new Organization("Coursera",LocalDate.of(2013,03,01),LocalDate.of(2013,05,01),
-                        "Functional Programming Principles in Scala by Martin Odersky",""),
-                new Organization("Luxoft",LocalDate.of(2011,03,01),LocalDate.of(2011,04,01),
-                        "Курс: Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.",""),
-                new Organization("Siemens AG",LocalDate.of(2005,01,01), LocalDate.of(2005,04,01),
-                        "3 месяца обучения мобильным IN сетям (Берлин)",""),
-                new Organization("Alcatel", LocalDate.of(1997,1,01),LocalDate.of(1998,03,01),
-                        "6 месяцев обучения цифровым телефонным сетям (Москва)","")
+                new Organization("Coursera", "Coursera",LocalDate.of(2005,04,1),LocalDate.of(2006,05,1),"work","Work")
+
         ));
 
         resume.addSection(SectionType.OBJECTIVE,positionSection);

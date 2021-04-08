@@ -2,10 +2,11 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
-import com.urise.webapp.model.Resume;
+import com.urise.webapp.model.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,6 +31,16 @@ public abstract class AbstractStorageTest {
         RESUME_2 = new Resume(UUID_2,"fullName2");
         RESUME_3 = new Resume(UUID_3,"fullName3");
         RESUME_4 = new Resume(UUID_4,"fullName4");
+
+        RESUME_1.addSection(SectionType.OBJECTIVE,new SingleLineSection("Objective"));
+        RESUME_1.addSection(SectionType.PERSONAL, new SingleLineSection("Personal"));
+        RESUME_1.addSection(SectionType.ACHIEVEMENT,new BulletedListSection(Arrays.asList("Achivement","Achivement2","Achivement3")));
+        RESUME_1.addSection(SectionType.QUALIFICATIONS,new BulletedListSection(Arrays.asList("Qualifications","Qualifications2","Qualifications3")));
+        RESUME_1.addSection(SectionType.EXPERIENCE,new Organization("Java Online Projects", "Java Online Projects",
+                LocalDate.of(2013,10,01), LocalDate.now(), "Автор проекта.",
+                "Создание, организация и проведение Java онлайн проектов и стажировок."));
+        RESUME_1.addSection(SectionType.EDUCATION,new Organization("Coursera", "Coursera",
+                LocalDate.of(2005,04,1),LocalDate.of(2006,05,1),"work","Work"));
     }
 
     protected AbstractStorageTest(Storage storage) {
