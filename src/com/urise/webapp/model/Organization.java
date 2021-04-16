@@ -1,15 +1,15 @@
 package com.urise.webapp.model;
 
 import java.time.LocalDate;
-import java.util.Objects;
+import java.util.*;
 
 public class Organization extends AbstractSection {
     private final Link homePage;
-    private final Periods period;
+    private final List<Period> period;
 
     public Organization(String name, String url, LocalDate startDate, LocalDate endDate, String heading, String paragraph) {
-        this.homePage = new Link(name,url);
-        this.period = new Periods(startDate, endDate, heading, paragraph);
+        this.homePage = new Link(name, url);
+        this.period = new ArrayList<Period>(Collections.singleton(new Period(startDate, endDate, heading, paragraph)));
     }
 
     @Override

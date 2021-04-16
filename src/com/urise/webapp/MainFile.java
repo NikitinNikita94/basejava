@@ -17,14 +17,14 @@ public class MainFile {
 
         File dir = new File("./src/com/urise/webapp");
         System.out.println(dir.isDirectory());
-        String [] list = dir.list();
+        String[] list = dir.list();
         if (list != null) {
             for (String name : list) {
                 System.out.println(name);
             }
         }
 
-        try(FileInputStream fis = new FileInputStream(filePath)) {
+        try (FileInputStream fis = new FileInputStream(filePath)) {
             System.out.println(fis.read());
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -36,12 +36,15 @@ public class MainFile {
     public static void fileRecursion(String path) {
         File f = new File(path);
         File[] fl = f.listFiles();
-        for (int i = 0; i < fl.length; i++) {
-            if (fl[i].isDirectory() && !fl[i].isHidden()) {
-                System.out.println(fl[i].getAbsolutePath());
-                fileRecursion(fl[i].getAbsolutePath());
+        if (fl == null) {
+            throw new RuntimeException("Error : file is null");
+        }
+        for (File file : fl) {
+            if (file.isDirectory() && !file.isHidden()) {
+                System.out.println(file.getAbsolutePath());
+                fileRecursion(file.getAbsolutePath());
             } else {
-                System.out.println(fl[i].getName());
+                System.out.println(file.getName());
             }
         }
     }

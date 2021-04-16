@@ -6,7 +6,7 @@ import java.util.*;
 
 public class MapStorage extends AbstractStorage<Resume> {
 
-    private Map<String,Resume> mapResume = new LinkedHashMap<>();
+    private Map<String, Resume> mapResume = new LinkedHashMap<>();
 
     @Override
     protected boolean isExist(Resume searchKey) {
@@ -20,12 +20,12 @@ public class MapStorage extends AbstractStorage<Resume> {
 
     @Override
     protected void updateResume(Resume resume, Resume searchKey) {
-        mapResume.replace(resume.getUuid(),resume);
+        mapResume.replace(resume.getUuid(), resume);
     }
 
     @Override
     protected void saveResume(Resume resume, Resume searchKey) {
-        mapResume.put(resume.getUuid(),resume);
+        mapResume.put(resume.getUuid(), resume);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class MapStorage extends AbstractStorage<Resume> {
 
     @Override
     protected List<Resume> getAll() {
-        return new ArrayList<>( mapResume.values());
+        return new ArrayList<>(mapResume.values());
     }
 
     @Override

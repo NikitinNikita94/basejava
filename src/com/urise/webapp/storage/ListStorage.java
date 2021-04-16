@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ListStorage extends AbstractStorage<Integer> {
 
-    private List<Resume> listStorage = new ArrayList();
+    private List<Resume> listStorage = new ArrayList<>();
 
     @Override
     protected boolean isExist(Integer searchKey) {
@@ -20,12 +20,12 @@ public class ListStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected void updateResume(Resume resume,Integer searchKey) {
-        listStorage.set(searchKey,resume);
+    protected void updateResume(Resume resume, Integer searchKey) {
+        listStorage.set(searchKey, resume);
     }
 
     @Override
-    protected void saveResume(Resume resume,Integer searchKey) {
+    protected void saveResume(Resume resume, Integer searchKey) {
         listStorage.add(resume);
     }
 

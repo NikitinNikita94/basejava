@@ -1,12 +1,12 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.ResumeTestData;
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
-import com.urise.webapp.model.*;
+import com.urise.webapp.model.Resume;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,21 +26,11 @@ public abstract class AbstractStorageTest {
     private static final Resume RESUME_3;
     private static final Resume RESUME_4;
 
-    static  {
-        RESUME_1 = new Resume(UUID_1,"fullName1");
-        RESUME_2 = new Resume(UUID_2,"fullName2");
-        RESUME_3 = new Resume(UUID_3,"fullName3");
-        RESUME_4 = new Resume(UUID_4,"fullName4");
-
-        RESUME_1.addSection(SectionType.OBJECTIVE,new SingleLineSection("Objective"));
-        RESUME_1.addSection(SectionType.PERSONAL, new SingleLineSection("Personal"));
-        RESUME_1.addSection(SectionType.ACHIEVEMENT,new BulletedListSection(Arrays.asList("Achivement","Achivement2","Achivement3")));
-        RESUME_1.addSection(SectionType.QUALIFICATIONS,new BulletedListSection(Arrays.asList("Qualifications","Qualifications2","Qualifications3")));
-        RESUME_1.addSection(SectionType.EXPERIENCE,new Organization("Java Online Projects", "Java Online Projects",
-                LocalDate.of(2013,10,01), LocalDate.now(), "Автор проекта.",
-                "Создание, организация и проведение Java онлайн проектов и стажировок."));
-        RESUME_1.addSection(SectionType.EDUCATION,new Organization("Coursera", "Coursera",
-                LocalDate.of(2005,04,1),LocalDate.of(2006,05,1),"work","Work"));
+    static {
+        RESUME_1 = ResumeTestData.fullResume(UUID_1, "fullName1");
+        RESUME_2 = ResumeTestData.fullResume(UUID_2, "fullName2");
+        RESUME_3 = ResumeTestData.fullResume(UUID_3, "fullName3");
+        RESUME_4 = ResumeTestData.fullResume(UUID_4, "fullName4");
     }
 
     protected AbstractStorageTest(Storage storage) {
@@ -76,13 +66,13 @@ public abstract class AbstractStorageTest {
     @Test(expected = NotExistStorageException.class)
     public void delete() throws Exception {
         storage.delete(UUID_2);
-        assertEquals(2,storage.size());
+        assertEquals(2, storage.size());
         storage.get(UUID_2);
     }
 
     @Test
     public void update() throws Exception {
-        Resume resume = new Resume(UUID_1,"Name");
+        Resume resume = new Resume(UUID_1, "Name");
         storage.update(resume);
         assertEquals(resume, storage.get(UUID_1));
     }
@@ -95,8 +85,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void get() throws Exception {
-        Resume resume = new Resume(UUID_2,"fullName2");
-        assertEquals(resume,storage.get(UUID_2));
+        assertEquals(RESUME_2, storage.get(UUID_2));
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -107,8 +96,8 @@ public abstract class AbstractStorageTest {
     @Test
     public void getAll() throws Exception {
         List<Resume> resumes = storage.getAllSorted();
-        assertEquals(3,resumes.size());
-        assertEquals(Arrays.asList(RESUME_1,RESUME_2,RESUME_3), resumes);
+        assertEquals(3, resumes.size());
+        assertEquals(Arrays.asList(RESUME_1, RESUME_2, RESUME_3), resumes);
     }
 
     @Test

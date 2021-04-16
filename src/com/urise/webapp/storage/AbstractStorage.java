@@ -13,25 +13,25 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     public void save(Resume resume) {
         LOG.info(" Save " + resume);
-        SK searchKey =  getNotExistedSearchKey(resume.getUuid());
-        saveResume(resume,searchKey);
+        SK searchKey = getNotExistedSearchKey(resume.getUuid());
+        saveResume(resume, searchKey);
     }
 
     public void delete(String uuid) {
         LOG.info(" Delete " + uuid);
-        SK searchKey =  getExistedSearchKey(uuid);
+        SK searchKey = getExistedSearchKey(uuid);
         deleteResume(searchKey);
     }
 
     public void update(Resume resume) {
         LOG.info(" Update " + resume);
-        SK searchKey =  getExistedSearchKey(resume.getUuid());
+        SK searchKey = getExistedSearchKey(resume.getUuid());
         updateResume(resume, searchKey);
     }
 
     public Resume get(String uuid) {
         LOG.info(" Get " + uuid);
-        SK searchKey =  getExistedSearchKey(uuid);
+        SK searchKey = getExistedSearchKey(uuid);
         return getResume(searchKey);
     }
 
@@ -66,7 +66,7 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     protected abstract void updateResume(Resume resume, SK searchKey);
 
-    protected abstract void saveResume(Resume resume,SK searchKey);
+    protected abstract void saveResume(Resume resume, SK searchKey);
 
     protected abstract void deleteResume(SK searchKey);
 

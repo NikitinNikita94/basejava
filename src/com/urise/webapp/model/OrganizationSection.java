@@ -3,8 +3,8 @@ package com.urise.webapp.model;
 import java.util.List;
 import java.util.Objects;
 
-public class OrganizationSection extends AbstractSection{
-    List<Organization> listOrganization;
+public class OrganizationSection extends AbstractSection {
+    private List<Organization> listOrganization;
 
     public OrganizationSection(List<Organization> listOrganization) {
         Objects.requireNonNull(listOrganization, "listOrganization must not be null");

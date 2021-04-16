@@ -15,12 +15,12 @@ public class Resume implements Comparable<Resume> {
 
     private final String fullName;
 
-    private final Map<ContactType,String> contacts = new EnumMap<>(ContactType.class);
+    private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
 
-    private final Map<SectionType,AbstractSection> section = new EnumMap<>(SectionType.class);
+    private final Map<SectionType, AbstractSection> section = new EnumMap<>(SectionType.class);
 
     public Resume(String fullName) {
-        this(UUID.randomUUID().toString(),fullName);
+        this(UUID.randomUUID().toString(), fullName);
     }
 
     public Resume(String uuid, String fullName) {
@@ -83,18 +83,16 @@ public class Resume implements Comparable<Resume> {
     public void print() {
         System.out.println(fullName);
         System.out.println("Контакты");
-        contacts.forEach((k, v) -> System.out.println(k.getTitle() + " " + v));
+        System.out.println(contacts.toString());
+        System.out.println("Секции");
+        System.out.println(section.toString());
 
-        section.forEach((k, v) -> System.out.println(k.getTitle() + " " + v));
     }
 
     @Override
-    public int compareTo (Resume o){
+    public int compareTo(Resume o) {
         int result = fullName.compareTo(o.fullName);
-        if (result == 0) {
-            return uuid.compareTo(o.uuid);
-        }
-        return result;
+        return result == 0 ? uuid.compareTo(o.uuid) : result;
     }
 
 }
