@@ -29,22 +29,23 @@ public class MainFile {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        fileRecursion(String.valueOf(dir));
 
+        fileRecursion(String.valueOf(dir), " ");
     }
 
-    public static void fileRecursion(String path) {
+    public static void fileRecursion(String path, String space) {
         File f = new File(path);
         File[] fl = f.listFiles();
         if (fl == null) {
             throw new RuntimeException("Error : file is null");
         }
         for (File file : fl) {
-            if (file.isDirectory() && !file.isHidden()) {
+            if (file.isDirectory()) {
                 System.out.println(file.getAbsolutePath());
-                fileRecursion(file.getAbsolutePath());
+                System.out.println(space + file.getName());
+                fileRecursion(file.getAbsolutePath(), space + " ");
             } else {
-                System.out.println(file.getName());
+                System.out.println(space + file.getName());
             }
         }
     }

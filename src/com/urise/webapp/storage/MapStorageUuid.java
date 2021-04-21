@@ -16,7 +16,7 @@ public class MapStorageUuid extends AbstractStorage<String> {
     }
 
     @Override
-    protected void updateResume(Resume r, String uuid) {
+    protected void doUpdate(Resume r, String uuid) {
         map.put(uuid, r);
     }
 
@@ -26,17 +26,17 @@ public class MapStorageUuid extends AbstractStorage<String> {
     }
 
     @Override
-    protected void saveResume(Resume r, String uuid) {
+    protected void doSave(Resume r, String uuid) {
         map.put(uuid, r);
     }
 
     @Override
-    protected Resume getResume(String uuid) {
+    protected Resume doGet(String uuid) {
         return map.get(uuid);
     }
 
     @Override
-    protected void deleteResume(String uuid) {
+    protected void doDelete(String uuid) {
         map.remove(uuid);
     }
 

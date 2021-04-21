@@ -3,16 +3,16 @@ package com.urise.webapp.storage;
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class AbstractFileStorage extends AbstractStorage<File> {
+public class FileStorage extends AbstractStorage<File> {
     private File directory;
+    protected Strategy strategy;
 
-    public AbstractFileStorage(File directory) {
+    public FileStorage(File directory, Strategy strategy) {
         Objects.requireNonNull(directory, "directory must be null");
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not directory");
@@ -21,6 +21,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not Read/Write");
         }
         this.directory = directory;
+        this.strategy = strategy;
     }
 
     @Override
@@ -29,39 +30,37 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected Resume getResume(File file) {
+    protected Resume doGet(File file) {
         try {
-            return doRead(file);
+            return strategy.doRead(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
             throw new StorageException("IO error", file.getName(), e);
         }
     }
 
     @Override
-    protected void updateResume(Resume resume, File file) {
+    protected void doUpdate(Resume resume, File file) {
         try {
-            doWrite(resume, file);
+            strategy.doWrite(resume, new BufferedOutputStream(new FileOutputStream(file)));
         } catch (IOException e) {
-            throw new StorageException("IO error", file.getName(), e);
+            throw new StorageException("File write error", resume.getUuid(), e);
         }
     }
 
     @Override
-    protected void saveResume(Resume resume, File file) {
+    protected void doSave(Resume resume, File file) {
         try {
             file.createNewFile();
-            doWrite(resume, file);
         } catch (IOException e) {
-            throw new StorageException("IO error", file.getName(), e);
+            throw new StorageException("Couldn't create file " + file.getAbsolutePath(), file.getName(), e);
         }
+        doUpdate(resume, file);
     }
 
     @Override
-    protected void deleteResume(File file) {
-        if (file != null) {
-            file.delete();
-        } else {
-            throw new StorageException("Error", file.getName());
+    protected void doDelete(File file) {
+        if (!file.delete()) {
+            throw new StorageException("File delete error", file.getName());
         }
     }
 
@@ -72,26 +71,30 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected List<Resume> getAll() {
-        File[] file = directory.listFiles();
-        List<Resume> listFile = new ArrayList<>(file.length);
-        return listFile;
+        File[] files = directory.listFiles();
+        if (files == null) {
+            throw new StorageException("Directory read error", null);
+        }
+        List<Resume> list = new ArrayList<>(files.length);
+        for (File file : files) {
+            list.add(doGet(file));
+        }
+        return list;
     }
 
     @Override
     public void clear() {
-        String[] file = directory.list();
-        for (String list : file) {
-            deleteResume(new File(list));
+        for (File file : directory.listFiles()) {
+            doDelete(file);
         }
     }
 
     @Override
     public int size() {
         String[] file = directory.list();
+        if (file == null) {
+            throw new StorageException("Directory read error", null);
+        }
         return file.length;
     }
-
-    protected abstract void doWrite(Resume resume, File file) throws IOException;
-
-    protected abstract Resume doRead(File file) throws IOException;
 }
