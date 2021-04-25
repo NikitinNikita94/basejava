@@ -2,6 +2,7 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
+import com.urise.webapp.storage.serializable.Strategy;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.Objects;
 
 public class FileStorage extends AbstractStorage<File> {
     private File directory;
-    protected Strategy strategy;
+    private Strategy strategy;
 
     public FileStorage(File directory, Strategy strategy) {
         Objects.requireNonNull(directory, "directory must be null");
@@ -71,30 +72,30 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     protected List<Resume> getAll() {
-        File[] files = directory.listFiles();
-        if (files == null) {
-            throw new StorageException("Directory read error", null);
-        }
-        List<Resume> list = new ArrayList<>(files.length);
-        for (File file : files) {
-            list.add(doGet(file));
+        List<Resume> list = new ArrayList<>(chechFile().length);
+        for (File file : chechFile()) {
+            list.add(doGet((file)));
         }
         return list;
     }
 
     @Override
     public void clear() {
-        for (File file : directory.listFiles()) {
-            doDelete(file);
+        for (File file : Objects.requireNonNull(chechFile())) {
+            doDelete((file));
         }
     }
 
     @Override
     public int size() {
-        String[] file = directory.list();
+        return chechFile().length;
+    }
+
+    private File[] chechFile() {
+        File[] file = directory.listFiles();
         if (file == null) {
             throw new StorageException("Directory read error", null);
         }
-        return file.length;
+        return file;
     }
 }

@@ -50,5 +50,4 @@ public class ResumeTestData {
 
         return resume;
     }
-
 }

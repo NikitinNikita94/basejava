@@ -2,6 +2,7 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
+import com.urise.webapp.storage.serializable.Strategy;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -12,10 +13,11 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PathStorage extends AbstractStorage<Path> {
     private Path directory;
-    protected Strategy strategy;
+    private Strategy strategy;
 
     protected PathStorage(String dir, Strategy strategy) {
         this.directory = Paths.get(dir);
@@ -23,24 +25,6 @@ public class PathStorage extends AbstractStorage<Path> {
         Objects.requireNonNull(directory, "directory must not be null");
         if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
             throw new IllegalArgumentException(dir + " is not directory or is not writable");
-        }
-    }
-
-    @Override
-    public void clear() {
-        try {
-            Files.list(directory).forEach(this::doDelete);
-        } catch (IOException e) {
-            throw new StorageException("Path delete error", null);
-        }
-    }
-
-    @Override
-    public int size() {
-        try {
-            return (int) Files.list(directory).count();
-        } catch (IOException e) {
-            throw new StorageException("Size error", null, e);
         }
     }
 
@@ -93,8 +77,22 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected List<Resume> getAll() {
+        return checkPath().map(this::doGet).collect(Collectors.toList());
+    }
+
+    @Override
+    public void clear() {
+        checkPath().forEach(this::doDelete);
+    }
+
+    @Override
+    public int size() {
+        return (int) checkPath().count();
+    }
+
+    private Stream<Path> checkPath() {
         try {
-            return Files.list(directory).map(this::doGet).collect(Collectors.toList());
+            return Files.list(directory);
         } catch (IOException e) {
             throw new StorageException("IOException", null, e);
         }
